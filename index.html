@@ -7,8 +7,14 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <style>
+        canvas { 
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
         :root {
-            --primary-color: #00ff88;
+            --primary-color: #00ffcc;
             --secondary-color: #141e30;
             --text-color: #e0e0e0;
             --section-bg: rgba(20, 30, 48, 0.95);
@@ -22,7 +28,7 @@
 
         body {
             font-family: 'Segoe UI', system-ui, sans-serif;
-            background: linear-gradient(135deg, #0a192f 0%, #203a43 100%);
+            background: linear-gradient(to right, #141e30, #243b55);
             color: var(--text-color);
             line-height: 1.6;
         }
@@ -56,7 +62,7 @@
             font-size: 3rem;
             color: var(--primary-color);
             margin-bottom: 1rem;
-            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+            text-shadow: 0 0 10px rgba(0, 255, 204, 0.3);
         }
 
         h2 {
@@ -129,7 +135,7 @@
             padding: 1rem;
             border-radius: 8px;
             text-align: center;
-            border: 1px solid rgba(0, 255, 136, 0.2);
+            border: 1px solid rgba(0, 255, 204, 0.2);
         }
 
         @keyframes fadeIn {
@@ -271,27 +277,54 @@
     </div>
 
     <script>
-        // Three.js background animation
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ canvas: document.querySelector("#bg"), alpha: true });
-        
-        renderer.setSize(window.innerWidth, window.innerHeight);
+        const renderer = new THREE.WebGLRenderer({
+            canvas: document.querySelector('#bg'),
+            antialias: true
+        });
+
         renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setSize(window.innerWidth, window.innerHeight);
 
-        // Create a network of connected points
+        // Grille hexagonale
+        const hexGridGeometry = new THREE.CylinderGeometry(0.3, 0.3, 0.1, 6);
+        const hexGridMaterial = new THREE.MeshBasicMaterial({
+            color: 0x00ff88,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.5
+        });
+
+        const hexagons = [];
+        const gridSize = 15;
+        const spacing = 2;
+
+        for (let i = -gridSize; i < gridSize; i++) {
+            for (let j = -gridSize; j < gridSize; j++) {
+                const hex = new THREE.Mesh(hexGridGeometry, hexGridMaterial);
+                hex.position.x = i * spacing + (j % 2) * (spacing / 2);
+                hex.position.z = j * (spacing * 0.866);
+                hex.position.y = Math.sin(i * 0.5) * Math.cos(j * 0.5) * 2;
+                hex.rotation.x = Math.PI / 2;
+                hexagons.push(hex);
+                scene.add(hex);
+            }
+        }
+
+        // Particules numériques
         const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = 100;
-        const posArray = new Float32Array(particlesCount * 3);
+        const particleCount = 200;
+        const posArray = new Float32Array(particleCount * 3);
 
-        for(let i = 0; i < particlesCount * 3; i++) {
+        for (let i = 0; i < particleCount * 3; i++) {
             posArray[i] = (Math.random() - 0.5) * 50;
         }
 
         particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
         const particlesMaterial = new THREE.PointsMaterial({
             size: 0.2,
-            color: 0x00ff88,
+            color: 0x00ffaa,
             transparent: true,
             opacity: 0.8
         });
@@ -299,43 +332,81 @@
         const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
         scene.add(particlesMesh);
 
+        // Lignes de connexion
+        const linesMaterial = new THREE.LineBasicMaterial({
+            color: 0x00ff88,
+            transparent: true,
+            opacity: 0.3
+        });
+
+        const linesCount = 20;
+        const lines = [];
+
+        for (let i = 0; i < linesCount; i++) {
+            const points = [];
+            const lineGeometry = new THREE.BufferGeometry();
+            
+            for (let j = 0; j < 3; j++) {
+                points.push(
+                    new THREE.Vector3(
+                        (Math.random() - 0.5) * 50,
+                        (Math.random() - 0.5) * 50,
+                        (Math.random() - 0.5) * 50
+                    )
+                );
+            }
+            
+            lineGeometry.setFromPoints(points);
+            const line = new THREE.Line(lineGeometry, linesMaterial);
+            lines.push(line);
+            scene.add(line);
+        }
+
         camera.position.z = 30;
+        camera.position.y = 10;
+        camera.rotation.x = -0.3;
+
+        let mouseX = 0;
+        let mouseY = 0;
+
+        document.addEventListener('mousemove', (event) => {
+            mouseX = (event.clientX - window.innerWidth / 2) * 0.0002;
+            mouseY = (event.clientY - window.innerHeight / 2) * 0.0002;
+        });
 
         function animate() {
             requestAnimationFrame(animate);
+
+            // Animation des hexagones
+            hexagons.forEach((hex, index) => {
+                hex.position.y = Math.sin(Date.now() * 0.001 + index * 0.1) * 1.5;
+                hex.rotation.z += 0.001;
+            });
+
+            // Animation des particules
             particlesMesh.rotation.y += 0.001;
-            particlesMesh.rotation.x += 0.001;
+            particlesMesh.rotation.x += 0.0005;
+
+            // Animation des lignes
+            lines.forEach((line, index) => {
+                line.rotation.y += 0.002;
+                line.rotation.x += Math.sin(Date.now() * 0.001 + index) * 0.001;
+            });
+
+            // Camera interactive
+            camera.position.x += (mouseX - camera.position.x) * 0.05;
+            camera.position.y += (-mouseY - camera.position.y) * 0.05;
+            camera.lookAt(scene.position);
+
             renderer.render(scene, camera);
         }
 
         animate();
 
-        // Responsive canvas
         window.addEventListener('resize', () => {
             camera.aspect = window.innerWidth / window.innerHeight;
             camera.updateProjectionMatrix();
             renderer.setSize(window.innerWidth, window.innerHeight);
-        });
-
-        // Scroll animations
-        document.addEventListener('DOMContentLoaded', () => {
-            const sections = document.querySelectorAll('section');
-            
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) {
-                        entry.target.style.opacity = 1;
-                        entry.target.style.transform = 'translateY(0)';
-                    }
-                });
-            });
-
-            sections.forEach(section => {
-                section.style.opacity = 0;
-                section.style.transform = 'translateY(20px)';
-                section.style.transition = 'all 0.5s ease-out';
-                observer.observe(section);
-            });
         });
     </script>
 </body>
