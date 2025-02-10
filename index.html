@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CV Malek Berrezouga</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to right, #141e30, #243b55);
+            color: white;
+            text-align: center;
+        }
+        h1 {
+            font-size: 2.5em;
+            margin-top: 50px;
+            animation: fadeInDown 1.5s;
+        }
+        .content {
+            max-width: 800px;
+            margin: auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            backdrop-filter: blur(10px);
+            text-align: left;
+        }
+        canvas { display: block; position: fixed; top: 0; left: 0; z-index: -1; }
+    </style>
+</head>
+<body>
+    <canvas id="bg"></canvas>
+    <h1 class="animate__animated animate__fadeInDown">Malek Berrezouga</h1>
+    <div class="content animate__animated animate__fadeInUp">
+        <h2>Spécialiste en Sécurité IT & Audit</h2>
+        <p>📍 Montréal, Canada | 📞 438-455-5846 | ✉️ Berrezouga.malek@outlook.com</p>
+        <p>🌍 Langues : Français, Anglais</p>
+        <h3>Profil</h3>
+        <p>Professionnelle expérimentée en développement logiciel, analyse des systèmes et cybersécurité, avec 8 ans d’expérience dans l’audit IT et la sécurisation des infrastructures.</p>
+        <h3>Compétences Techniques</h3>
+        <ul>
+            <li>Sécurité & Audit : ISO 27001, OWASP, SIEM (Splunk, ELK), tests d’intrusion (TryHackMe, Cybrary)</li>
+            <li>Développement Sécurisé : Java (Spring Boot, JSP), Angular, API sécurisées (OAuth, JWT)</li>
+            <li>Cloud & Infrastructure : AWS, Azure, CI/CD sécurisé (Jenkins, SonarQube, GitHub Actions)</li>
+            <li>Gestion des Incidents : Analyse de logs, réponse aux incidents, gestion des vulnérabilités</li>
+        </ul>
+        <h3>Certifications</h3>
+        <ul>
+            <li>ISO/IEC 27001 (en cours)</li>
+            <li>CC de ISC2 (en cours)</li>
+            <li>GISA (prévu)</li>
+            <li>TryHackMe (en cours)</li>
+            <li>Formations en cybersécurité sur Cybrary</li>
+        </ul>
+        <h3>Expérience Professionnelle</h3>
+        <p><strong>Desjardins – Analyste programmeur (06/2020 - Aujourd’hui)</strong></p>
+        <p>Conception et développement sécurisé d’applications en Java Spring Boot.</p>
+        <p><strong>The Weather Network – Analyste Système TI (03/2017 - 05/2020)</strong></p>
+        <p>Surveillance et audit de la sécurité des infrastructures et serveurs.</p>
+        <h3>Projets & Initiatives</h3>
+        <ul>
+            <li>Sécurisation des API et des pipelines CI/CD chez Desjardins.</li>
+            <li>Participation active à des challenges TryHackMe et formations avancées sur Cybrary.</li>
+        </ul>
+    </div>
+    
+    <script>
+        const scene = new THREE.Scene();
+        const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        const renderer = new THREE.WebGLRenderer({ canvas: document.querySelector("#bg") });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.body.appendChild(renderer.domElement);
+
+        const geometry = new THREE.TorusKnotGeometry(10, 3, 100, 16);
+        const material = new THREE.MeshBasicMaterial({ color: 0x00ffcc, wireframe: true });
+        const torus = new THREE.Mesh(geometry, material);
+        scene.add(torus);
+
+        camera.position.z = 50;
+        function animate() {
+            requestAnimationFrame(animate);
+            torus.rotation.x += 0.01;
+            torus.rotation.y += 0.005;
+            renderer.render(scene, camera);
+        }
+        animate();
+    </script>
+</body>
+</html>
