@@ -3,91 +3,340 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CV Malek Berrezouga</title>
+    <title>CV Malek Berrezouga - Cybersecurity Specialist</title>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
     <style>
-        body {
+        :root {
+            --primary-color: #00ff88;
+            --secondary-color: #141e30;
+            --text-color: #e0e0e0;
+            --section-bg: rgba(20, 30, 48, 0.95);
+        }
+
+        * {
             margin: 0;
-            font-family: Arial, sans-serif;
-            background: linear-gradient(to right, #141e30, #243b55);
-            color: white;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, sans-serif;
+            background: linear-gradient(135deg, #0a192f 0%, #203a43 100%);
+            color: var(--text-color);
+            line-height: 1.6;
+        }
+
+        #bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        header {
             text-align: center;
+            padding: 3rem 0;
+            background: var(--section-bg);
+            border-bottom: 2px solid var(--primary-color);
+            animation: fadeInDown 1s ease;
         }
+
+        .profile-header {
+            margin-bottom: 2rem;
+        }
+
         h1 {
-            font-size: 2.5em;
-            margin-top: 50px;
-            animation: fadeInDown 1.5s;
+            font-size: 3rem;
+            color: var(--primary-color);
+            margin-bottom: 1rem;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
         }
-        .content {
-            max-width: 800px;
-            margin: auto;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.1);
+
+        h2 {
+            font-size: 1.8rem;
+            color: var(--primary-color);
+            margin: 2rem 0 1rem;
+            border-bottom: 2px solid var(--primary-color);
+            padding-bottom: 0.5rem;
+        }
+
+        .contact-info {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+            margin: 1rem 0;
+        }
+
+        .contact-info span {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        section {
+            background: var(--section-bg);
+            margin: 2rem 0;
+            padding: 2rem;
             border-radius: 10px;
-            backdrop-filter: blur(10px);
-            text-align: left;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            animation: fadeIn 1s ease;
         }
-        canvas { display: block; position: fixed; top: 0; left: 0; z-index: -1; }
+
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 1rem 0;
+        }
+
+        .skill-category {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 3px solid var(--primary-color);
+        }
+
+        .experience-item {
+            margin-bottom: 2rem;
+            padding: 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 8px;
+            transition: transform 0.3s ease;
+        }
+
+        .experience-item:hover {
+            transform: translateX(10px);
+            background: rgba(255, 255, 255, 0.08);
+        }
+
+        .cert-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 1rem;
+            margin: 1rem 0;
+        }
+
+        .cert-item {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 1rem;
+            border-radius: 8px;
+            text-align: center;
+            border: 1px solid rgba(0, 255, 136, 0.2);
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes fadeInDown {
+            from { opacity: 0; transform: translateY(-20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 1rem;
+            }
+            
+            h1 {
+                font-size: 2rem;
+            }
+
+            .contact-info {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
     </style>
 </head>
 <body>
     <canvas id="bg"></canvas>
-    <h1 class="animate__animated animate__fadeInDown">Malek Berrezouga</h1>
-    <div class="content animate__animated animate__fadeInUp">
-        <h2>Spécialiste en Sécurité IT & Audit</h2>
-        <p>📍 Montréal, Canada | 📞 438-455-5846 | ✉️ Berrezouga.malek@outlook.com</p>
-        <p>🌍 Langues : Français, Anglais</p>
-        <h3>Profil</h3>
-        <p>Professionnelle expérimentée en développement logiciel, analyse des systèmes et cybersécurité, avec 8 ans d’expérience dans l’audit IT et la sécurisation des infrastructures.</p>
-        <h3>Compétences Techniques</h3>
-        <ul>
-            <li>Sécurité & Audit : ISO 27001, OWASP, SIEM (Splunk, ELK), tests d’intrusion (TryHackMe, Cybrary)</li>
-            <li>Développement Sécurisé : Java (Spring Boot, JSP), Angular, API sécurisées (OAuth, JWT)</li>
-            <li>Cloud & Infrastructure : AWS, Azure, CI/CD sécurisé (Jenkins, SonarQube, GitHub Actions)</li>
-            <li>Gestion des Incidents : Analyse de logs, réponse aux incidents, gestion des vulnérabilités</li>
-        </ul>
-        <h3>Certifications</h3>
-        <ul>
-            <li>ISO/IEC 27001 (en cours)</li>
-            <li>CC de ISC2 (en cours)</li>
-            <li>GISA (prévu)</li>
-            <li>TryHackMe (en cours)</li>
-            <li>Formations en cybersécurité sur Cybrary</li>
-        </ul>
-        <h3>Expérience Professionnelle</h3>
-        <p><strong>Desjardins – Analyste programmeur (06/2020 - Aujourd’hui)</strong></p>
-        <p>Conception et développement sécurisé d’applications en Java Spring Boot.</p>
-        <p><strong>The Weather Network – Analyste Système TI (03/2017 - 05/2020)</strong></p>
-        <p>Surveillance et audit de la sécurité des infrastructures et serveurs.</p>
-        <h3>Projets & Initiatives</h3>
-        <ul>
-            <li>Sécurisation des API et des pipelines CI/CD chez Desjardins.</li>
-            <li>Participation active à des challenges TryHackMe et formations avancées sur Cybrary.</li>
-        </ul>
+    <div class="container">
+        <header>
+            <div class="profile-header">
+                <h1>Malek Berrezouga</h1>
+                <h2>Spécialiste en Sécurité IT & Audit</h2>
+                <div class="contact-info">
+                    <span>📍 Montréal, Canada</span>
+                    <span>📞 438-455-5846</span>
+                    <span>✉️ Berrezouga.malek@outlook.com</span>
+                    <span>🌍 Français, Anglais</span>
+                </div>
+            </div>
+        </header>
+
+        <section id="profile">
+            <h2>Profil</h2>
+            <p>Professionnelle expérimentée en développement logiciel, analyse des systèmes et cybersécurité, avec 8 ans d'expérience dans l'audit IT et la sécurisation des infrastructures. Expertise en gestion des risques, conformité aux normes de sécurité (ISO 27001, OWASP, CI/CD sécurisé) et mise en œuvre de solutions de protection des systèmes et applications.</p>
+        </section>
+
+        <section id="skills">
+            <h2>Compétences Techniques</h2>
+            <div class="skills-grid">
+                <div class="skill-category">
+                    <h3>Sécurité & Audit</h3>
+                    <p>ISO 27001, OWASP, SIEM (Splunk, ELK), tests d'intrusion (TryHackMe, Cybrary)</p>
+                </div>
+                <div class="skill-category">
+                    <h3>Développement Sécurisé</h3>
+                    <p>Java (Spring Boot, JSP), Angular, API sécurisées (OAuth, JWT)</p>
+                </div>
+                <div class="skill-category">
+                    <h3>Cloud & Infrastructure</h3>
+                    <p>AWS, Azure, CI/CD sécurisé (Jenkins, SonarQube, GitHub Actions)</p>
+                </div>
+                <div class="skill-category">
+                    <h3>DevOps & Sécurité</h3>
+                    <p>Docker, Kubernetes, WebLogic, Bash/Python (scripting sécurité)</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="certifications">
+            <h2>Certifications</h2>
+            <div class="cert-grid">
+                <div class="cert-item">
+                    <h3>ISO/IEC 27001</h3>
+                    <p>En cours</p>
+                </div>
+                <div class="cert-item">
+                    <h3>CC de ISC2</h3>
+                    <p>En cours</p>
+                </div>
+                <div class="cert-item">
+                    <h3>GISA</h3>
+                    <p>Prévu</p>
+                </div>
+                <div class="cert-item">
+                    <h3>Swagger Hub API Owner</h3>
+                    <p>Mai 2022</p>
+                </div>
+                <div class="cert-item">
+                    <h3>PSPO</h3>
+                    <p>Janvier 2021</p>
+                </div>
+            </div>
+        </section>
+
+        <section id="experience">
+            <h2>Expérience Professionnelle</h2>
+            <div class="experience-item">
+                <h3>Desjardins – Analyste programmeur</h3>
+                <p>06/2020 - Aujourd'hui</p>
+                <ul>
+                    <li>Conception et développement sécurisé d'applications en Java Spring Boot</li>
+                    <li>Documentation et analyse des solutions techniques pour la traçabilité</li>
+                    <li>Participation aux stratégies de cybersécurité</li>
+                </ul>
+            </div>
+            <div class="experience-item">
+                <h3>The Weather Network – Analyste Système TI</h3>
+                <p>03/2017 - 05/2020</p>
+                <ul>
+                    <li>Surveillance et audit de la sécurité des infrastructures</li>
+                    <li>Résolution d'incidents critiques et documentation</li>
+                    <li>Mise à jour des procédures de sécurité</li>
+                </ul>
+            </div>
+            <div class="experience-item">
+                <h3>I2V – Analyste programmeur</h3>
+                <p>10/2016 - 01/2017</p>
+                <ul>
+                    <li>Développement sécurisé de sites e-commerce</li>
+                    <li>Gestion des accès et configurations serveurs</li>
+                </ul>
+            </div>
+        </section>
+
+        <section id="education">
+            <h2>Formation</h2>
+            <div class="experience-item">
+                <h3>Certificat en Informatique et Développement de Logiciel</h3>
+                <p>UQÀM, Canada (2015)</p>
+            </div>
+            <div class="experience-item">
+                <h3>Licence en Sciences de l'Informatique</h3>
+                <p>ISET Charguia, Tunisie (2012)</p>
+            </div>
+        </section>
     </div>
-    
+
     <script>
+        // Three.js background animation
         const scene = new THREE.Scene();
         const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-        const renderer = new THREE.WebGLRenderer({ canvas: document.querySelector("#bg") });
+        const renderer = new THREE.WebGLRenderer({ canvas: document.querySelector("#bg"), alpha: true });
+        
         renderer.setSize(window.innerWidth, window.innerHeight);
-        document.body.appendChild(renderer.domElement);
+        renderer.setPixelRatio(window.devicePixelRatio);
 
-        const geometry = new THREE.TorusKnotGeometry(10, 3, 100, 16);
-        const material = new THREE.MeshBasicMaterial({ color: 0x00ffcc, wireframe: true });
-        const torus = new THREE.Mesh(geometry, material);
-        scene.add(torus);
+        // Create a network of connected points
+        const particlesGeometry = new THREE.BufferGeometry();
+        const particlesCount = 100;
+        const posArray = new Float32Array(particlesCount * 3);
 
-        camera.position.z = 50;
+        for(let i = 0; i < particlesCount * 3; i++) {
+            posArray[i] = (Math.random() - 0.5) * 50;
+        }
+
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.2,
+            color: 0x00ff88,
+            transparent: true,
+            opacity: 0.8
+        });
+
+        const particlesMesh = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particlesMesh);
+
+        camera.position.z = 30;
+
         function animate() {
             requestAnimationFrame(animate);
-            torus.rotation.x += 0.01;
-            torus.rotation.y += 0.005;
+            particlesMesh.rotation.y += 0.001;
+            particlesMesh.rotation.x += 0.001;
             renderer.render(scene, camera);
         }
+
         animate();
+
+        // Responsive canvas
+        window.addEventListener('resize', () => {
+            camera.aspect = window.innerWidth / window.innerHeight;
+            camera.updateProjectionMatrix();
+            renderer.setSize(window.innerWidth, window.innerHeight);
+        });
+
+        // Scroll animations
+        document.addEventListener('DOMContentLoaded', () => {
+            const sections = document.querySelectorAll('section');
+            
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = 1;
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            });
+
+            sections.forEach(section => {
+                section.style.opacity = 0;
+                section.style.transform = 'translateY(20px)';
+                section.style.transition = 'all 0.5s ease-out';
+                observer.observe(section);
+            });
+        });
     </script>
 </body>
 </html>
